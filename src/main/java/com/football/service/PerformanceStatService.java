@@ -13,14 +13,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * PerformanceStat Service
- * 
- * Business logic layer for PerformanceStat entity operations.
- * 
- * 
- * @author Patrick DUSHIMIMANA
- */
 @Service
 @Transactional
 public class PerformanceStatService {

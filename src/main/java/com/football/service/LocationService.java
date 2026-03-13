@@ -10,14 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Location Service
- * 
- * Business logic layer for Location entity operations.
- * 
- * 
- * @author Patrick DUSHIMIMANA
- */
 @Service
 @Transactional
 public class LocationService {
