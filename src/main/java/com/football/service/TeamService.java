@@ -17,11 +17,6 @@ import java.util.Optional;
  * 
  * Business logic layer for Team entity operations.
  * 
- * This service demonstrates:
- * - CRUD operations
- * - Business validation
- * - Transaction management
- * - Integration with TeamRepository
  * 
  * @author Patrick DUSHIMIMANA
  */

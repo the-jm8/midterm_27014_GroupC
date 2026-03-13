@@ -9,7 +9,6 @@ import java.time.LocalDate;
  * 
  * Represents player performance statistics for a specific match.
  * 
- * This entity demonstrates:
  * - One-to-One relationship with Player (bidirectional)
  * - Field validation for performance metrics
  * - Date tracking for performance records

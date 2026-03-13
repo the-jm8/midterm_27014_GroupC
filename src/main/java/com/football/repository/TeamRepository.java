@@ -17,11 +17,6 @@ import java.util.Optional;
  * 
  * Handles database operations for Team entities.
  * 
- * This repository demonstrates:
- * - Basic CRUD operations through JpaRepository
- * - Custom queries with sorting and pagination
- * - existsBy() method implementation for team name
- * - Complex queries for team management
  * 
  * @author Patrick DUSHIMIMANA
  */
@@ -31,7 +26,6 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     /**
      * Check if a team exists by name
      * 
-     * This method demonstrates the existsBy() functionality.
      * It prevents duplicate team names in the database.
      * 
      * @param name the team name to check
@@ -58,7 +52,6 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     /**
      * Find teams by coach name with sorting
      * 
-     * This method demonstrates sorting functionality.
      * Teams are sorted by foundation date in descending order (newest first).
      * 
      * @param coach the coach name
@@ -79,7 +72,6 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     /**
      * Custom query to find teams with their locations
      * 
-     * This method demonstrates JOIN operations in JPQL.
      * It retrieves teams along with their location information.
      * 
      * @return list of teams with location details
@@ -90,7 +82,6 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     /**
      * Custom query to find teams by province
      * 
-     * This method demonstrates complex querying with JOINs.
      * It retrieves teams located in a specific province.
      * 
      * @param province the province name
@@ -102,7 +93,6 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     /**
      * Find teams by province with pagination and sorting
      * 
-     * This method demonstrates advanced querying with pagination and sorting.
      * It's particularly useful for the province-based retrieval requirement.
      * 
      * @param province the province name
@@ -141,7 +131,6 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     /**
      * Find teams with player count greater than specified number
      * 
-     * This method demonstrates complex querying with subqueries.
      * 
      * @param playerCount the minimum number of players
      * @return list of teams with more players than the specified count

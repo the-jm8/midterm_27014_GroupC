@@ -12,7 +12,6 @@ import java.util.List;
  * 
  * Represents a football team with its location and players.
  * 
- * This entity demonstrates:
  * - One-to-One relationship with Location (bidirectional)
  * - One-to-Many relationship with Player
  * - One-to-Many relationship with TrainingSession

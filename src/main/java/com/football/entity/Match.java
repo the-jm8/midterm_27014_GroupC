@@ -11,8 +11,6 @@ import java.util.List;
  * 
  * Represents a football match between two teams.
  * 
- * This entity demonstrates:
- * - Many-to-Many relationship with Player (via join table)
  * - Field validation for match details
  * - LocalDateTime for match scheduling
  * 

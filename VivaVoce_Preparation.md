@@ -4,7 +4,7 @@
 
 ### Project Overview
 
-This Spring Boot application demonstrates all the required database relationships and functionalities as specified in the midterm project requirements.
+This Spring Boot application implements all the required database relationships and functionalities as specified in the midterm project requirements.
 
 ### 1. Entity Relationship Diagram (ERD) - 6 Tables
 

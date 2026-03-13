@@ -17,11 +17,7 @@ import java.util.List;
  * 
  * Handles database operations for Match entities.
  * 
- * This repository demonstrates:
- * - Basic CRUD operations through JpaRepository
  * - Many-to-Many relationship management
- * - Custom queries for match scheduling and results
- * - Sorting and pagination for match history
  * 
  * @author Patrick DUSHIMIMANA
  */
@@ -82,7 +78,6 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
     /**
      * Find matches by date with sorting
      * 
-     * This method demonstrates sorting functionality.
      * Matches are sorted by date and time in descending order (newest first).
      * 
      * @param matchDateTime the match date and time
@@ -94,7 +89,6 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
     /**
      * Custom query to find matches with players
      * 
-     * This method demonstrates JOIN operations for Many-to-Many relationships.
      * It retrieves matches along with the players who participated.
      * 
      * @return list of matches with player details
@@ -105,7 +99,6 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
     /**
      * Find matches by team name (either home or away)
      * 
-     * This method demonstrates complex querying with OR conditions.
      * 
      * @param teamName the team name
      * @return list of matches where the specified team is either home or away
@@ -116,7 +109,6 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
     /**
      * Find matches by team name with pagination and sorting
      * 
-     * This method demonstrates advanced querying with pagination and sorting.
      * Matches are sorted by date and time in descending order.
      * 
      * @param teamName the team name

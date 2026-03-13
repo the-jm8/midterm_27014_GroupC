@@ -19,17 +19,12 @@ import java.util.Optional;
  * 
  * Business logic layer for TrainingSession entity operations.
  * 
- * This service demonstrates:
- * - CRUD operations
- * - Business validation
- * - Transaction management
- * - Integration with TrainingSessionRepository
  * 
  * @author Patrick DUSHIMIMANA
  */
 @Service
 @Transactional
-pmvn ublic class TrainingSessionService {
+public class TrainingSessionService {
 
     private final TrainingSessionRepository trainingSessionRepository;
 

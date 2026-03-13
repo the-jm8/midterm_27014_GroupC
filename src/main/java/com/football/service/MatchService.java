@@ -17,11 +17,6 @@ import java.util.Optional;
  * 
  * Business logic layer for Match entity operations.
  * 
- * This service demonstrates:
- * - CRUD operations
- * - Business validation
- * - Transaction management
- * - Integration with MatchRepository
  * 
  * @author Patrick DUSHIMIMANA
  */

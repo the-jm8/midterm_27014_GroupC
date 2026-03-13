@@ -16,11 +16,6 @@ import java.util.Optional;
  * 
  * Handles database operations for Location entities.
  * 
- * This repository demonstrates:
- * - Basic CRUD operations through JpaRepository
- * - Custom queries for province-based retrieval
- * - existsBy() method implementation
- * - Sorting and pagination support
  * 
  * @author Patrick DUSHIMIMANA
  */
@@ -30,7 +25,6 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
     /**
      * Check if a location exists by province name
      * 
-     * This method demonstrates the existsBy() functionality required in the
      * project.
      * It returns true if a location with the given province name exists, false
      * otherwise.
@@ -43,7 +37,6 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
     /**
      * Check if a location exists by district name
      * 
-     * Another example of existsBy() method implementation.
      * 
      * @param district the district name to check
      * @return true if location exists, false otherwise
@@ -54,7 +47,6 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
      * Find locations by province name
      * 
      * This method retrieves all locations in a specific province.
-     * It demonstrates custom query implementation for province-based data
      * retrieval.
      * 
      * @param province the province name
@@ -81,7 +73,6 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
     /**
      * Custom query to find locations by province with pagination and sorting
      * 
-     * This method demonstrates advanced querying with pagination and sorting.
      * It uses JPQL (Java Persistence Query Language) for custom queries.
      * 
      * @param province the province name
@@ -94,7 +85,6 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
     /**
      * Custom query to find locations by province or district
      * 
-     * This method demonstrates complex querying with OR conditions.
      * 
      * @param province the province name
      * @param district the district name

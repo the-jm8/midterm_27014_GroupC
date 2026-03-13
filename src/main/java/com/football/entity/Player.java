@@ -9,10 +9,8 @@ import java.time.LocalDate;
  * 
  * Represents a football player with performance tracking.
  * 
- * This entity demonstrates:
  * - One-to-Many relationship with Team (bidirectional)
  * - One-to-One relationship with PerformanceStat
- * - Many-to-Many relationship with Match (via join table)
  * - Comprehensive field validation
  * 
  * @author Patrick DUSHIMIMANA

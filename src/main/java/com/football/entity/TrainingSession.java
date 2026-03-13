@@ -10,7 +10,6 @@ import java.time.LocalTime;
  * 
  * Represents a football team training session.
  * 
- * This entity demonstrates:
  * - One-to-Many relationship with Team (bidirectional)
  * - Field validation for training details
  * - Date and time tracking for training sessions

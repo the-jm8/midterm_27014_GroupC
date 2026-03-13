@@ -18,11 +18,7 @@ import java.util.Optional;
  * 
  * Handles database operations for PerformanceStat entities.
  * 
- * This repository demonstrates:
- * - Basic CRUD operations through JpaRepository
  * - One-to-One relationship management
- * - Custom queries for performance analysis
- * - Sorting and pagination for performance tracking
  * 
  * @author Patrick DUSHIMIMANA
  */
@@ -81,7 +77,6 @@ public interface PerformanceStatRepository extends JpaRepository<PerformanceStat
     /**
      * Find performance stats by player with sorting
      * 
-     * This method demonstrates sorting functionality.
      * Performance stats are sorted by performance date in descending order (newest
      * first).
      * 
@@ -110,7 +105,6 @@ public interface PerformanceStatRepository extends JpaRepository<PerformanceStat
     /**
      * Custom query to find performance stats with player details
      * 
-     * This method demonstrates JOIN operations in JPQL.
      * It retrieves performance stats along with player information.
      * 
      * @return list of performance stats with player details
@@ -121,7 +115,6 @@ public interface PerformanceStatRepository extends JpaRepository<PerformanceStat
     /**
      * Find performance stats by player name
      * 
-     * This method demonstrates complex querying with JOINs.
      * 
      * @param playerName the player's full name
      * @return list of performance stats for the specified player
@@ -132,7 +125,6 @@ public interface PerformanceStatRepository extends JpaRepository<PerformanceStat
     /**
      * Find performance stats by player name with pagination and sorting
      * 
-     * This method demonstrates advanced querying with pagination and sorting.
      * Performance stats are sorted by performance date in descending order.
      * 
      * @param playerName the player's full name
@@ -145,7 +137,6 @@ public interface PerformanceStatRepository extends JpaRepository<PerformanceStat
     /**
      * Find performance stats by team
      * 
-     * This method demonstrates complex querying with multiple JOINs.
      * 
      * @param teamName the team name
      * @return list of performance stats for players in the specified team
@@ -164,7 +155,6 @@ public interface PerformanceStatRepository extends JpaRepository<PerformanceStat
     /**
      * Custom query to find average performance by player
      * 
-     * This method demonstrates complex querying with aggregation.
      * It calculates average goals, assists, and fitness level for each player.
      * 
      * @return list of players with their average performance statistics

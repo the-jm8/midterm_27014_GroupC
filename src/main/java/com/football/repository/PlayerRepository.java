@@ -18,12 +18,6 @@ import java.util.Optional;
  * 
  * Handles database operations for Player entities.
  * 
- * This repository demonstrates:
- * - Basic CRUD operations through JpaRepository
- * - Sorting functionality for player statistics
- * - existsBy() method implementation for jersey number
- * - Complex queries for player management
- * - Integration with PerformanceStat for statistics
  * 
  * @author Patrick DUSHIMIMANA
  */
@@ -33,7 +27,6 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     /**
      * Check if a player exists by jersey number
      * 
-     * This method demonstrates the existsBy() functionality.
      * It prevents duplicate jersey numbers within the system.
      * 
      * @param jerseyNumber the jersey number to check
@@ -68,7 +61,6 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     /**
      * Find players by position with sorting
      * 
-     * This method demonstrates sorting functionality.
      * Players are sorted by age in ascending order.
      * 
      * @param position the player position
@@ -114,7 +106,6 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     /**
      * Custom query to find players with their performance stats
      * 
-     * This method demonstrates JOIN operations in JPQL.
      * It retrieves players along with their performance statistics.
      * 
      * @return list of players with performance stats
@@ -125,7 +116,6 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     /**
      * Custom query to find players by team name
      * 
-     * This method demonstrates complex querying with JOINs.
      * 
      * @param teamName the team name
      * @return list of players in the specified team
@@ -136,7 +126,6 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     /**
      * Find players by team name with pagination and sorting
      * 
-     * This method demonstrates advanced querying with pagination and sorting.
      * Players are sorted by jersey number in ascending order.
      * 
      * @param teamName the team name
@@ -174,7 +163,6 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     /**
      * Custom query to find top goal scorers
      * 
-     * This method demonstrates complex querying with JOINs and aggregation.
      * It retrieves players with their total goals scored, sorted in descending
      * order.
      * 

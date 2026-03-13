@@ -18,11 +18,6 @@ import java.util.Optional;
  * 
  * Business logic layer for Player entity operations.
  * 
- * This service demonstrates:
- * - CRUD operations
- * - Business validation
- * - Transaction management
- * - Integration with PlayerRepository
  * 
  * @author Patrick DUSHIMIMANA
  */

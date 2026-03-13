@@ -12,7 +12,6 @@ import java.util.List;
  * Represents geographical location information for football teams.
  * Stores province, district, and stadium name.
  * 
- * This entity demonstrates:
  * - Primary key generation strategy
  * - Basic field validation
  * - One-to-One relationship with Team

@@ -18,11 +18,7 @@ import java.util.List;
  * 
  * Handles database operations for TrainingSession entities.
  * 
- * This repository demonstrates:
- * - Basic CRUD operations through JpaRepository
  * - One-to-Many relationship management
- * - Custom queries for training session management
- * - Sorting and pagination for training history
  * 
  * @author Patrick DUSHIMIMANA
  */
@@ -91,7 +87,6 @@ public interface TrainingSessionRepository extends JpaRepository<TrainingSession
     /**
      * Find training sessions by team with sorting
      * 
-     * This method demonstrates sorting functionality.
      * Training sessions are sorted by training date in descending order (newest
      * first).
      * 
@@ -113,7 +108,6 @@ public interface TrainingSessionRepository extends JpaRepository<TrainingSession
     /**
      * Custom query to find training sessions with team details
      * 
-     * This method demonstrates JOIN operations in JPQL.
      * It retrieves training sessions along with team information.
      * 
      * @return list of training sessions with team details
@@ -124,7 +118,6 @@ public interface TrainingSessionRepository extends JpaRepository<TrainingSession
     /**
      * Find training sessions by team name
      * 
-     * This method demonstrates complex querying with JOINs.
      * 
      * @param teamName the team name
      * @return list of training sessions for the specified team
@@ -135,7 +128,6 @@ public interface TrainingSessionRepository extends JpaRepository<TrainingSession
     /**
      * Find training sessions by team name with pagination and sorting
      * 
-     * This method demonstrates advanced querying with pagination and sorting.
      * Training sessions are sorted by training date in descending order.
      * 
      * @param teamName the team name
@@ -166,7 +158,6 @@ public interface TrainingSessionRepository extends JpaRepository<TrainingSession
     /**
      * Custom query to find training session statistics by team
      * 
-     * This method demonstrates complex querying with aggregation.
      * It calculates average duration and session count for each team.
      * 
      * @return list of teams with their training session statistics

@@ -30,7 +30,6 @@ A comprehensive Spring Boot application for tracking football team performance, 
 ✅ All required relationship mappings
 ✅ existsBy() method implementation
 ✅ Province-based data retrieval
-✅ Comprehensive Viva-Voce preparation
 
 ## Technology Stack
 

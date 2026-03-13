@@ -18,11 +18,6 @@ import java.util.Optional;
  * 
  * Business logic layer for PerformanceStat entity operations.
  * 
- * This service demonstrates:
- * - CRUD operations
- * - Business validation
- * - Transaction management
- * - Integration with PerformanceStatRepository
  * 
  * @author Patrick DUSHIMIMANA
  */
