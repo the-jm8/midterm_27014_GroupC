@@ -17,8 +17,7 @@ import java.util.List;
  * - One-to-Many relationship with TrainingSession
  * - Primary key generation and field validation
  * 
- * @author Patrick DUSHIMIMANA
- */
+ /** /* */
 @Entity
 @Table(name = "teams")
 public class Team {
