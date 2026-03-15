@@ -51,8 +51,7 @@ public class Match {
     private String matchStatus; // e.g., "Scheduled", "In Progress", "Completed"
 
     // Many-to-Many relationship with Player
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "player_match", joinColumns = @JoinColumn(name = "match_id"), inverseJoinColumns = @JoinColumn(name = "player_id"))
+    @ManyToMany(mappedBy = "matches", fetch = FetchType.LAZY)
     private List<Player> players = new ArrayList<>();
 
     // Constructors

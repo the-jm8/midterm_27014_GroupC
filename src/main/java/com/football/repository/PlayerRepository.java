@@ -166,12 +166,62 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
      * It retrieves players with their total goals scored, sorted in descending
      * order.
      * 
-     * @param limit the number of top scorers to retrieve
-     * @return list of top goal scorers with their total goals
+     * @param pageable pagination information
+     * @return paginated result of top goal scorers with their total goals
      */
     @Query("SELECT p, SUM(ps.goalsScored) as totalGoals " +
             "FROM Player p LEFT JOIN p.performanceStat ps " +
             "GROUP BY p.id, p.firstName, p.lastName " +
             "ORDER BY totalGoals DESC")
-    List<Object[]> findTopGoalScorers(Pageable pageable);
+    Page<Object[]> findTopGoalScorers(Pageable pageable);
+
+    /**
+     * Find players by province (NEW FUNCTIONALITY)
+     * 
+     * This method retrieves all players from a given province using province code OR province name.
+     * It demonstrates complex JOIN operations across multiple entities:
+     * Player → Team → Location
+     * 
+     * @param province the province name or code
+     * @return list of players from the specified province
+     */
+    @Query("SELECT p FROM Player p JOIN p.team t JOIN t.location l WHERE l.province = :province")
+    List<Player> findPlayersByProvince(@Param("province") String province);
+
+    /**
+     * Find players by province with pagination and sorting (NEW FUNCTIONALITY)
+     * 
+     * This method retrieves all players from a given province with pagination and sorting.
+     * It demonstrates comprehensive functionality for the assessment requirement.
+     * 
+     * @param province the province name or code
+     * @param pageable pagination and sorting information
+     * @return paginated result of players from the specified province
+     */
+    @Query("SELECT p FROM Player p JOIN p.team t JOIN t.location l WHERE l.province = :province ORDER BY p.firstName, p.lastName")
+    Page<Player> findPlayersByProvinceWithPagination(@Param("province") String province, Pageable pageable);
+
+    /**
+     * Find players by district (NEW FUNCTIONALITY)
+     * 
+     * This method retrieves all players from a given district.
+     * It demonstrates JOIN operations across multiple entities.
+     * 
+     * @param district the district name
+     * @return list of players from the specified district
+     */
+    @Query("SELECT p FROM Player p JOIN p.team t JOIN t.location l WHERE l.district = :district")
+    List<Player> findPlayersByDistrict(@Param("district") String district);
+
+    /**
+     * Find players by stadium (NEW FUNCTIONALITY)
+     * 
+     * This method retrieves all players who play at a specific stadium.
+     * It demonstrates JOIN operations across multiple entities.
+     * 
+     * @param stadiumName the stadium name
+     * @return list of players who play at the specified stadium
+     */
+    @Query("SELECT p FROM Player p JOIN p.team t JOIN t.location l WHERE l.stadiumName = :stadiumName")
+    List<Player> findPlayersByStadium(@Param("stadiumName") String stadiumName);
 }

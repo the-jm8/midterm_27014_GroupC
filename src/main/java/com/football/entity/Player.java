@@ -3,6 +3,8 @@ package com.football.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Player Entity
@@ -59,6 +61,15 @@ public class Player {
     // One-to-One relationship with PerformanceStat
     @OneToOne(mappedBy = "player", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private PerformanceStat performanceStat;
+
+    // Many-to-Many relationship with Match
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "player_match",
+        joinColumns = @JoinColumn(name = "player_id"),
+        inverseJoinColumns = @JoinColumn(name = "match_id")
+    )
+    private List<Match> matches = new ArrayList<>();
 
     // Constructors
     public Player() {

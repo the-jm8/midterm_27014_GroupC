@@ -2,11 +2,12 @@ package com.football.service;
 
 import com.football.entity.Team;
 import com.football.repository.TeamRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,20 +16,16 @@ import java.util.Optional;
 /**
  * Team Service
  * 
- * Business logic layer for Team entity operations.
- * 
+ * Business logic layer for Team operations with comprehensive
+ * sorting and pagination functionality.
  * 
  * @author Patrick DUSHIMIMANA
  */
 @Service
-@Transactional
 public class TeamService {
 
-    private final TeamRepository teamRepository;
-
-    public TeamService(TeamRepository teamRepository) {
-        this.teamRepository = teamRepository;
-    }
+    @Autowired
+    private TeamRepository teamRepository;
 
     /**
      * Get all teams
@@ -43,20 +40,7 @@ public class TeamService {
      * Get team by ID
      * 
      * @param id the team ID
-     * @return the team
-     * @throws RuntimeException if team not found
-     */
-    public Team getTeam(Long id) {
-        return teamRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Team not found with id: " + id));
-    }
-
-    /**
-     * Get team by ID (returns Team)
-     * 
-     * @param id the team ID
-     * @return the team
-     * @throws RuntimeException if team not found
+     * @return the team if found
      */
     public Team getTeamById(Long id) {
         return teamRepository.findById(id)
@@ -68,66 +52,42 @@ public class TeamService {
      * 
      * @param team the team to create
      * @return the created team
-     * @throws RuntimeException if team name already exists
      */
     public Team createTeam(Team team) {
-        if (teamRepository.existsByName(team.getName())) {
-            throw new RuntimeException("Team with name " + team.getName() + " already exists");
-        }
-        return teamRepository.save(team);
-    }
-
-    /**
-     * Save or update a team
-     * 
-     * @param team the team to save
-     * @return the saved team
-     */
-    public Team saveTeam(Team team) {
         return teamRepository.save(team);
     }
 
     /**
      * Update an existing team
      * 
-     * @param id          the team ID
+     * @param id the team ID
      * @param teamDetails the updated team details
      * @return the updated team
-     * @throws RuntimeException if team not found
      */
     public Team updateTeam(Long id, Team teamDetails) {
-        Team team = teamRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Team not found with id: " + id));
-
+        Team team = getTeamById(id);
         team.setName(teamDetails.getName());
         team.setCoach(teamDetails.getCoach());
         team.setFoundationDate(teamDetails.getFoundationDate());
-
-        if (teamDetails.getLocation() != null) {
-            team.setLocation(teamDetails.getLocation());
-        }
-
+        team.setLocation(teamDetails.getLocation());
         return teamRepository.save(team);
     }
 
     /**
-     * Delete a team
+     * Delete a team by ID
      * 
      * @param id the team ID
-     * @throws RuntimeException if team not found
      */
     public void deleteTeam(Long id) {
-        if (!teamRepository.existsById(id)) {
-            throw new RuntimeException("Team not found with id: " + id);
-        }
-        teamRepository.deleteById(id);
+        Team team = getTeamById(id);
+        teamRepository.delete(team);
     }
 
     /**
      * Check if team exists by name
      * 
      * @param name the team name
-     * @return true if exists, false otherwise
+     * @return true if team exists, false otherwise
      */
     public boolean existsByName(String name) {
         return teamRepository.existsByName(name);
@@ -137,111 +97,254 @@ public class TeamService {
      * Find team by name
      * 
      * @param name the team name
-     * @return optional team
+     * @return optional team if found
      */
     public Optional<Team> findByName(String name) {
-        return teamRepository.findByNameIgnoreCase(name);
-    }
-
-    /**
-     * Find teams by coach
-     * 
-     * @param coach the coach name
-     * @return list of teams
-     */
-    public List<Team> findByCoach(String coach) {
-        return teamRepository.findByCoach(coach);
+        return teamRepository.findByName(name);
     }
 
     /**
      * Find teams by coach with sorting
      * 
+     * This method demonstrates sorting functionality using Spring Data JPA Sort object.
+     * Teams are sorted by foundation date in descending order (newest first).
+     * 
      * @param coach the coach name
-     * @param sort  sorting criteria
-     * @return list of teams sorted
+     * @return list of teams sorted by foundation date
      */
-    public List<Team> findByCoachSorted(String coach, Sort sort) {
+    public List<Team> getTeamsByCoachSorted(String coach) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "foundationDate");
         return teamRepository.findByCoachOrderByFoundationDateDesc(coach, sort);
     }
 
     /**
      * Find teams by foundation date range
      * 
-     * @param startDate start date
-     * @param endDate   end date
-     * @return list of teams
+     * @param startDate the start date
+     * @param endDate the end date
+     * @return list of teams founded within the date range
      */
-    public List<Team> findByFoundationDateBetween(LocalDate startDate, LocalDate endDate) {
+    public List<Team> getTeamsByFoundationDateRange(LocalDate startDate, LocalDate endDate) {
         return teamRepository.findByFoundationDateBetween(startDate, endDate);
     }
 
     /**
-     * Find all teams with their locations
+     * Find teams by location province
      * 
-     * @return list of teams with locations
+     * This method demonstrates JOIN operations for retrieving teams
+     * based on their location's province.
+     * 
+     * @param province the province name
+     * @return list of teams in the specified province
      */
-    public List<Team> findAllWithLocations() {
+    public List<Team> getTeamsByProvince(String province) {
+        return teamRepository.findByLocationProvince(province);
+    }
+
+    /**
+     * Find teams by location province with pagination and sorting
+     * 
+     * This method demonstrates comprehensive pagination and sorting functionality.
+     * It uses Spring Data JPA Pageable for pagination and sorting support.
+     * 
+     * @param province the province name
+     * @param page the page number (0-based)
+     * @param size the page size
+     * @param sortField the field to sort by
+     * @param sortDirection the sort direction (ASC or DESC)
+     * @return paginated result of teams in the specified province
+     */
+    public Page<Team> getTeamsByProvinceWithPagination(
+            String province, 
+            int page, 
+            int size, 
+            String sortField, 
+            String sortDirection) {
+        
+        Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortField));
+        return teamRepository.findByLocationProvinceWithPagination(province, pageable);
+    }
+
+    /**
+     * Find teams by location district
+     * 
+     * @param district the district name
+     * @return list of teams in the specified district
+     */
+    public List<Team> getTeamsByDistrict(String district) {
+        return teamRepository.findByLocationDistrict(district);
+    }
+
+    /**
+     * Find teams by location stadium name
+     * 
+     * @param stadiumName the stadium name
+     * @return list of teams using the specified stadium
+     */
+    public List<Team> getTeamsByStadium(String stadiumName) {
+        return teamRepository.findByLocationStadiumName(stadiumName);
+    }
+
+    /**
+     * Find teams with their locations (eager loading)
+     * 
+     * This method demonstrates eager loading to avoid N+1 query problems.
+     * It fetches teams along with their location data in a single query.
+     * 
+     * @return list of teams with their locations
+     */
+    public List<Team> getTeamsWithLocations() {
         return teamRepository.findAllWithLocations();
     }
 
     /**
-     * Find teams by province
+     * Find teams with their players (eager loading)
      * 
-     * @param province the province name
-     * @return list of teams
+     * This method demonstrates eager loading for One-to-Many relationships.
+     * It fetches teams along with their players in a single query.
+     * 
+     * @return list of teams with their players
      */
-    public List<Team> findByProvince(String province) {
-        return teamRepository.findByProvince(province);
+    public List<Team> getTeamsWithPlayers() {
+        return teamRepository.findAllWithPlayers();
     }
 
     /**
-     * Find teams by province with pagination
+     * Find teams with their training sessions (eager loading)
      * 
-     * @param province the province name
-     * @param pageable pagination info
-     * @return page of teams
+     * This method demonstrates eager loading for One-to-Many relationships.
+     * It fetches teams along with their training sessions in a single query.
+     * 
+     * @return list of teams with their training sessions
      */
-    public Page<Team> findByProvinceWithPagination(String province, Pageable pageable) {
-        return teamRepository.findByProvinceWithPagination(province, pageable);
+    public List<Team> getTeamsWithTrainingSessions() {
+        return teamRepository.findAllWithTrainingSessions();
     }
 
     /**
-     * Find teams by district
+     * Find teams with all related data (eager loading)
      * 
-     * @param district the district name
-     * @return list of teams
+     * This method demonstrates comprehensive eager loading to fetch
+     * teams with their locations, players, and training sessions.
+     * 
+     * @return list of teams with all related data
      */
-    public List<Team> findByDistrict(String district) {
-        return teamRepository.findByDistrict(district);
+    public List<Team> getTeamsWithAllData() {
+        return teamRepository.findAllWithAllData();
     }
 
     /**
-     * Find teams by stadium name
+     * Find teams by name pattern (case insensitive)
      * 
-     * @param stadiumName the stadium name
-     * @return list of teams
+     * @param namePattern the name pattern (supports % wildcards)
+     * @return list of teams matching the name pattern
      */
-    public List<Team> findByStadiumName(String stadiumName) {
-        return teamRepository.findByStadiumName(stadiumName);
+    public List<Team> getTeamsByNamePattern(String namePattern) {
+        return teamRepository.findByNameLikeIgnoreCase(namePattern);
+    }
+
+    /**
+     * Find teams by coach pattern (case insensitive)
+     * 
+     * @param coachPattern the coach pattern (supports % wildcards)
+     * @return list of teams with coaches matching the pattern
+     */
+    public List<Team> getTeamsByCoachPattern(String coachPattern) {
+        return teamRepository.findByCoachLikeIgnoreCase(coachPattern);
     }
 
     /**
      * Find teams founded after a specific date
      * 
      * @param date the foundation date threshold
-     * @return list of teams
+     * @return list of teams founded after the specified date
      */
-    public List<Team> findByFoundationDateAfter(LocalDate date) {
+    public List<Team> getTeamsFoundedAfter(LocalDate date) {
         return teamRepository.findByFoundationDateAfter(date);
     }
 
     /**
-     * Find teams with player count greater than specified number
+     * Find teams founded before a specific date
      * 
-     * @param playerCount the minimum number of players
-     * @return list of teams
+     * @param date the foundation date threshold
+     * @return list of teams founded before the specified date
      */
-    public List<Team> findByPlayerCountGreaterThan(int playerCount) {
-        return teamRepository.findByPlayerCountGreaterThan(playerCount);
+    public List<Team> getTeamsFoundedBefore(LocalDate date) {
+        return teamRepository.findByFoundationDateBefore(date);
+    }
+
+    /**
+     * Find teams by multiple criteria with pagination
+     * 
+     * This method demonstrates complex querying with multiple criteria
+     * and pagination support.
+     * 
+     * @param province the province (optional)
+     * @param coach the coach name (optional)
+     * @param minFoundationDate minimum foundation date (optional)
+     * @param maxFoundationDate maximum foundation date (optional)
+     * @param page the page number (0-based)
+     * @param size the page size
+     * @param sortField the field to sort by
+     * @param sortDirection the sort direction (ASC or DESC)
+     * @return paginated result of teams matching the criteria
+     */
+    public Page<Team> getTeamsByCriteria(
+            String province,
+            String coach,
+            LocalDate minFoundationDate,
+            LocalDate maxFoundationDate,
+            int page,
+            int size,
+            String sortField,
+            String sortDirection) {
+        
+        Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortField));
+        return teamRepository.findTeamsByCriteria(
+                province, coach, minFoundationDate, maxFoundationDate, pageable);
+    }
+
+    /**
+     * Find the oldest team (founded earliest)
+     * 
+     * @return the oldest team
+     */
+    public Optional<Team> getOldestTeam() {
+        return teamRepository.findOldestTeam();
+    }
+
+    /**
+     * Find the newest team (founded latest)
+     * 
+     * @return the newest team
+     */
+    public Optional<Team> getNewestTeam() {
+        return teamRepository.findNewestTeam();
+    }
+
+    /**
+     * Get teams with player count statistics
+     * 
+     * This method demonstrates aggregate queries with JOIN operations.
+     * It returns teams along with their player count for statistical analysis.
+     * 
+     * @return list of teams with player counts
+     */
+    public List<Object[]> getTeamsWithPlayerCount() {
+        return teamRepository.findTeamsWithPlayerCount();
+    }
+
+    /**
+     * Get teams with training session count statistics
+     * 
+     * This method demonstrates aggregate queries with JOIN operations.
+     * It returns teams along with their training session count for statistical analysis.
+     * 
+     * @return list of teams with training session counts
+     */
+    public List<Object[]> getTeamsWithTrainingSessionCount() {
+        return teamRepository.findTeamsWithTrainingSessionCount();
     }
 }
